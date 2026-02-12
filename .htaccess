@@ -1,0 +1,31 @@
+# Enable Rewrite Engine
+RewriteEngine On
+RewriteBase /
+
+# Remove .html extension
+# If the request is for a file that exists with .html, serve it
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.+)$ $1.html [L,QSA]
+
+# Redirect .html URLs to clean URLs (301 permanent redirect)
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s([^.]+)\.html [NC]
+RewriteRule ^ %1 [R=301,L]
+
+# Custom Error Pages (optional - create these files if you want)
+# ErrorDocument 404 /404.html
+# ErrorDocument 500 /500.html
+
+# Force HTTPS (uncomment when you have SSL certificate)
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Force WWW or non-WWW (choose one, uncomment if needed)
+# Force WWW:
+# RewriteCond %{HTTP_HOST} ^groai\.com [NC]
+# RewriteRule ^(.*)$ https://www.groai.com/$1 [L,R=301]
+
+# Force non-WWW:
+# RewriteCond %{HTTP_HOST} ^www\.groai\.com [NC]
+# RewriteRule ^(.*)$ https://groai.com/$1 [L,R=301]
